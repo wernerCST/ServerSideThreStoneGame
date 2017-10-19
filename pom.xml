@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.mycompany</groupId>
+    <artifactId>ServerSide</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <mainClass>com.mycompany.serverside.connection.MainApp</mainClass>
+    </properties>
+
+    <dependencies>
+
+        <!-- The dependency for the SLF4J Facade -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+        <!-- Binding for Log4J -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.8.2</version>
+        </dependency>
+        <!-- Logging Framework Dependency Uses the log4j2 library -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.8.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.8.2</version>
+        </dependency>
+
+        <!-- JUnit 4 testing dependency -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <!-- only to be used during test, phase will not be included in executable jar -->
+            <scope>test</scope>
+        </dependency>
+
+        <!-- MySQL dependency -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.43</version>
+        </dependency>
+
+		<!-- Jodd Email -->
+		<dependency>
+			<groupId>org.jodd</groupId>
+			<artifactId>jodd-mail</artifactId>
+			<version>3.8.6</version>
+		</dependency>
+
+    </dependencies>
+
+    <build>
+        <!-- Goals may be set in the IDE or the pom IDE or CLI goals override the
+        defaultGoal -->
+        
+        <!-- THIS YOU MUST ADD, THE TEXT -->
+        <defaultGoal>clean compile package exec:java</defaultGoal>
+        <!-- Plugins define components that perform actions -->
+        <plugins>
+            <!-- Shade: Create an executable jar containing all the dependencies when
+            the package goal is carried out -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation=
+                      "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>${mainClass}</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Exec: Executes the program -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <goals>
+                            <!-- Runs in separate instance of JVM -->
+                            <goal>exec</goal>
+                            <!-- Runs in same instance of the JVM as Maven -->
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <!--used by java goal -->
+                            <!--executes in the same VM that Maven runs in -->
+                            <mainClass>${mainClass}</mainClass>
+
+                            <!--used by exec goal -->
+                            <!--runs in a separate VM from the one that Maven runs in -->
+                            <executable>${java.home}/bin/java</executable>
+                            <commandlineArgs>-jar ${project.build.directory}/${project.build.finalName}.jar</commandlineArgs>
+                        </configuration>
+
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Executes JUnit tests and writes the results as an xml and
+            txt file Test classes must include one of the following in their
+            name: Test* *Test *TestCase -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.20</version>
+                <configuration>
+                    <argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
+                    <skipTests>false</skipTests>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>
+   
+    

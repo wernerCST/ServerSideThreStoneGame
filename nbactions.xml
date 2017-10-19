@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-run</actionName>
+            <displayName>run</displayName>
+        </action>
+        <action>
+            <actionName>CUSTOM-sad</actionName>
+            <displayName>sad</displayName>
+        </action>
+        <action>
+            <actionName>CUSTOM-z\x</actionName>
+            <displayName>z\x</displayName>
+        </action>
+        <action>
+            <actionName>CUSTOM-wqe</actionName>
+            <displayName>wqe</displayName>
+        </action>
+    </actions>

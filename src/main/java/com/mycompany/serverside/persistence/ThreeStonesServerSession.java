@@ -11,7 +11,7 @@ public interface ThreeStonesServerSession {
     //Resets the GameState object to it's default values (scores, stones on hand ETC)
     public void resstartGame();
     //Sets the clients stone onto the board
-    public void setClientMove(int clientMove);
+    public void setClientMove(int x, int y);
     //Returns the AI move, 
     //NOT SURE ABOUT, maybe it'll be better somewhere else -->  if the game is over it returns a special charecter.
     public String getAIMove();

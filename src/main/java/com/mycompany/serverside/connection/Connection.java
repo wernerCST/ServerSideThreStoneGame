@@ -42,8 +42,9 @@ public class Connection {
             }
         }           
     }
+
     private byte[] parseIncomingPacket(String msg) {
-         String[] clientPacket = msg.split(",");
+         String[] clientPacket = msg.split("x");
          String response = "0";
          System.out.println("in parseIncomingPacket");
          switch(clientPacket[0]){
@@ -60,8 +61,11 @@ public class Connection {
                  break;
              //Game in progress and a move was made    
              case "2":
-                 session.setClientMove(Integer.parseInt(clientPacket[1]));
-                 response = session.getAIMove() + "," + session.getScores() + "," + session.getStones();
+                 String[] userMsg = clientPacket[1].split(",");
+                 int x = Integer.parseInt(userMsg[0]);
+                 int y = Integer.parseInt(userMsg[1]);
+                 session.setClientMove(x, y);
+                 response = "1x" + session.getAIMove() + "," + session.getScores() + "," + session.getStones();
                  break;
              //Restart Game    
              case "3": 

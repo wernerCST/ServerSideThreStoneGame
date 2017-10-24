@@ -6,16 +6,22 @@ package com.mycompany.serverside.persistence;
  */
 public class GameStateDAOImpl implements GameStateDAO {
     
-    private int num;
+    private int x;
+    private int y;
 
     @Override
-    public void setTesting(int playerMove) {
-        this.num = playerMove;
+    public void setTesting(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
     @Override
-    public int getTesting() {
-       return this.num;
+    public int getX() {
+       return this.x;
+    }
+    @Override
+    public int getY() {
+       return this.y;
     }
     
 }

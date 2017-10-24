@@ -47,11 +47,7 @@ public class Connection {
             }
         }           
     }
-    /**
-     * This method will 
-     * @param msg
-     * @return 
-     */
+
     private byte[] parseIncomingPacket(String msg) {
          String[] clientPacket = msg.split("x");
          String response = "0";

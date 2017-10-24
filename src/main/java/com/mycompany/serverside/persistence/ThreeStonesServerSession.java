@@ -14,11 +14,11 @@ public interface ThreeStonesServerSession {
     public void setClientMove(int x, int y);
     //Returns the AI move, 
     //NOT SURE ABOUT, maybe it'll be better somewhere else -->  if the game is over it returns a special charecter.
-    public String getAIMove();
+    public int[] getAIMove();
     //Returns the current scores
-    public String getScores();
+    public int[] getScores();
     //Returns stones left for the player and the AI.
-    public String getStones();
+    public int getStones();
     
     
     

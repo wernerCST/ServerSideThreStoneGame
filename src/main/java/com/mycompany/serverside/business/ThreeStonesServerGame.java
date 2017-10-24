@@ -85,6 +85,26 @@ public class ThreeStonesServerGame {
         return isGameOver;
     }
     
+    public int getServerX() {
+        return serverX;
+    }
+    
+    public int getServerY() {
+        return serverY;
+    }
+    
+    public int getClientScore() {
+        return playerClient.getScore();
+    }
+    
+    public int getServerScore() {
+        return playerServer.getScore();
+    }
+    
+    public int getClientStones() {
+        return playerClient.getNumStones();
+    }
+    
     /**
      * Calculates the number of points a player's Stone placement has earned. 
      * Looks at the colour of Stones on the checked Stone's vertical and 

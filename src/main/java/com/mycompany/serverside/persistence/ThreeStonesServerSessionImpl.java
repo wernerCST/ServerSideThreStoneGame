@@ -4,7 +4,7 @@ package com.mycompany.serverside.persistence;
  *
  * @author 1511430
  */
-public class SessionDAOImpl implements SessionDAO {
+public class ThreeStonesServerSessionImpl implements ThreeStonesServerSession {
     private GameStateDAO gameState;
     
     @Override

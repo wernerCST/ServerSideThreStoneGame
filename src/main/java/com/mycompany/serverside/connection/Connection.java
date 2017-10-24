@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 public class Connection { 
     private final  int port;
     private static final int BUFSIZE = 32;  
-    private SessionDAO session;
+    private ThreeStonesServerSession session;
     
     public Connection() {
         this.port = 7;  
@@ -49,7 +49,7 @@ public class Connection {
          switch(clientPacket[0]){
              //Session initialized.
              case "0":
-                 this.session = new SessionDAOImpl();
+                 this.session = new ThreeStonesServerSessionImpl();
                  System.out.println("Session made");
                  response = "1";
                  break;

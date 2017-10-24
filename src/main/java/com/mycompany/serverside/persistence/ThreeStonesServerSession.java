@@ -4,7 +4,7 @@ package com.mycompany.serverside.persistence;
  *
  * @author 1511430
  */
-public interface SessionDAO {
+public interface ThreeStonesServerSession {
     
     //A new GameState object is created.
     public void newGame();

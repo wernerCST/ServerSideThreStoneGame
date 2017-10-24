@@ -11,7 +11,9 @@ package com.mycompany.serverside.persistence;
  */
 public interface GameStateDAO {
     
-    public void setTesting(int playerMove);
+    public void setTesting(int x, int y);
     
-    public int getTesting();
+    public int getX();
+    
+    public int getY();
 }

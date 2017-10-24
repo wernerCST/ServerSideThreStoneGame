@@ -20,18 +20,17 @@ public class SessionDAOImpl implements SessionDAO {
 
     @Override
     public void resstartGame() {
-        this.gameState.setTesting(-1);
+        this.gameState.setTesting(-1, -1);
     }
 
     @Override
-    public void setClientMove(int clientMove) {
-        System.out.println("A move by the client has been made --> " + clientMove);
-        this.gameState.setTesting(clientMove);
+    public void setClientMove(int x, int y) {
+        this.gameState.setTesting(x, y);
     }
 
     @Override
     public String getAIMove() {
-        return this.gameState.getTesting() + "";
+        return this.gameState.getX() + "," + this.gameState.getY();
     }
 
     @Override

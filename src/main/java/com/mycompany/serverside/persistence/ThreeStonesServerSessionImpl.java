@@ -37,5 +37,4 @@ public class ThreeStonesServerSessionImpl implements ThreeStonesServerSession {
     public String getStones() {
         return "42";
     }
-    
 }

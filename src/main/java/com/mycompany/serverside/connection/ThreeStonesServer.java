@@ -13,12 +13,12 @@ import java.util.logging.Logger;
  *
  * @author 1511430
  */
-public class Connection { 
+public class ThreeStonesServer { 
     private final  int port;
     private static final int BUFSIZE = 32;  
     private ThreeStonesServerSession session;
     
-    public Connection() {
+    public ThreeStonesServer() {
         this.port = 7;  
         System.out.println("Connection");        
     }

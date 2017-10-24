@@ -11,8 +11,8 @@ import java.net.*;
 public class MainApp {
     
     public static void main(String[] args) {
-        Connection con = new Connection();
-        con.startServer(); 
+        ThreeStonesServer connection = new ThreeStonesServer();
+        connection.startServer(); 
         
        
     }

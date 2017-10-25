@@ -70,8 +70,8 @@ public class ThreeStonesServer {
                  this.session = new ThreeStonesServerSessionImpl();
                  System.out.println("Session made");
                  response[0] = 1;
-                 this.a = response[1];
-                 this.b = response[2];
+                 this.a = input[1];
+                 this.b = input[2];
                  System.out.println(a + "  ^^2^  "  + b);
                  break;
              //Request for new game.

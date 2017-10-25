@@ -19,9 +19,12 @@ public class ThreeStonesServer {
     private final  int port;
     private static final int BUFSIZE = 32;  
     private ThreeStonesServerSession session;
+    private int a, b;
     
     public ThreeStonesServer() {
-        this.port = 7;        
+        this.port = 7;  
+        a = -1;
+        b = -1;
     }
     public void startServer() {        
         int msgSize;
@@ -46,7 +49,8 @@ public class ThreeStonesServer {
                 while((msgSize = in.read(bb)) != -1) {
                     byte[] serverRespones = parseIncomingPacket(bb);
                     System.out.println("---->> " + msgSize);
-                    out.write(serverRespones, 0, serverRespones.length);              
+                    out.write(serverRespones, 0, serverRespones.length);    
+                    System.out.println("---->>   sent");
                 }
                 
             } catch (IOException ex) {
@@ -56,37 +60,42 @@ public class ThreeStonesServer {
     }
 
     private byte[] parseIncomingPacket(byte[] input) {
-         String response = "0";
+        
          System.out.println("in parseIncomingPacket");
+         byte[] response = new byte[10];
          switch(input[0]){
              //Session initialized.
              case 0:
+                 System.out.println(a + "  ^^1^  "  + b);
                  this.session = new ThreeStonesServerSessionImpl();
                  System.out.println("Session made");
-                 response = "1";
+                 response[0] = 1;
+                 this.a = response[1];
+                 this.b = response[2];
+                 System.out.println(a + "  ^^2^  "  + b);
                  break;
              //Request for new game.
              case 1:
+                 System.out.println(a + "  ^^3^  "  + b);
                  session.newGame();
-                 response = "1";
+                 response[0] = 1;
                  break;
              //Game in progress and a move was made    
              case 2:
-                 String[] userMsg = clientPacket[1].split(",");
-                 int x = Integer.parseInt(userMsg[0]);
-                 int y = Integer.parseInt(userMsg[1]);
-                 session.setClientMove(x, y);
-                 response = "1x" + session.getAIMove() + "," + session.getScores() + "," + session.getStones();
+                 //int x = Integer.parseInt(userMsg[0]);
+                 //int y = Integer.parseInt(userMsg[1]);
+                 //session.setClientMove(userMsg[1], userMsg[2]);
+                 response[0] = 1;
                  break;
              //Restart Game    
              case 3: 
                  session.resstartGame();
-                 response = "1";
+                 response[0] = 1;
                  break;
              //End game
             // case "4":               
              
          }
-         return response.getBytes();
+         return response;
     }
 }

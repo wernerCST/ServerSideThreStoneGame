@@ -86,6 +86,9 @@ public class ThreeStonesServer {
                  //int y = Integer.parseInt(userMsg[1]);
                  //session.setClientMove(userMsg[1], userMsg[2]);
                  response[0] = 1;
+                 response[1] = 4;
+                 response[2] = 2;
+                 response[3] = 0;
                  break;
              //Restart Game    
              case 3: 

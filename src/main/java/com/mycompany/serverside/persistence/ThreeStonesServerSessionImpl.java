@@ -33,6 +33,7 @@ public class ThreeStonesServerSessionImpl implements ThreeStonesServerSession {
 
     @Override
     public void setClientMove(int x, int y) {
+        System.out.println("                        ****1");
         isGameOver = game.playRoundOfGame(x, y);
         serverCoords[0] = game.getServerX();
         serverCoords[1] = game.getServerY();

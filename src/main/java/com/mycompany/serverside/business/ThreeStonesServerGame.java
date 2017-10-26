@@ -8,7 +8,7 @@ import com.mycompany.serverside.data.ThreeStonesPlayer;
  *
  * @author Peter Bellefleur MacCaul
  */
-public class ThreeStonesServerGame {
+public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
     //bean classes
     private ThreeStonesBoard board;
     private ThreeStonesPlayer playerClient;
@@ -52,25 +52,28 @@ public class ThreeStonesServerGame {
      */
     public boolean playRoundOfGame(int x, int y) {
         //given input from client, place their stone
+        System.out.println("                        ****2");
         clientX = x;
         clientY = y;
         board.setStoneAt(playerClient.getStoneColour(), clientX, clientY);
         
         //player loses a Stone after a play; the Stone is now on the board
         playerClient.decrementNumStones();
-        
+         System.out.println("                        ****3");
         //calculate points client has earned, add to their total score
         nextScore = determineScore(playerClient.getStoneColour(), 
                 clientX, clientY);
+        System.out.println("                        ****4");
         playerClient.incrementScore(nextScore);
+        System.out.println("                        ****5");
         
         //determine where server should next play, then play
         findNextServerMove();
         board.setStoneAt(playerServer.getStoneColour(), serverX, serverY);
-        
+         System.out.println("p.3");
         //server loses a Stone after a play; the Stone is now on the board
         playerServer.decrementNumStones();
-        
+         System.out.println("p.4");
         //calculate points server has earned, add to their total score
         nextScore = determineScore(playerServer.getStoneColour(),
                 serverX, serverY);
@@ -80,7 +83,7 @@ public class ThreeStonesServerGame {
         if (playerClient.getNumStones() <= 0 
                 && playerServer.getNumStones() <= 0)
             isGameOver = true;
-        
+         System.out.println("p.5");
         //return game status flag
         return isGameOver;
     }
@@ -233,7 +236,7 @@ public class ThreeStonesServerGame {
         int scoreToCompare = -1;
         int bestScoringX = -1;
         int bestScoringY = -1;
-        
+        System.out.println("                        ****6");
         for (int i = clientX - 1; i >= 0; i--) {
             if (board.getStoneAt(i, clientY) == Stone.EMPTY) {
                 canPlaceAnywhere = false;
@@ -246,7 +249,7 @@ public class ThreeStonesServerGame {
                 }
             }
         }
-        
+        System.out.println("                        ****7");
         for (int j = clientX + 1; j <= 10; j++) {
             if (board.getStoneAt(j, clientY) == Stone.EMPTY) {
                 canPlaceAnywhere = false;
@@ -259,7 +262,7 @@ public class ThreeStonesServerGame {
                 }
             }
         }
-        
+        System.out.println("                        ****8");
         for (int k = clientY - 1; k >= 0; k--) {
             if (board.getStoneAt(clientX, k) == Stone.EMPTY) {
                 canPlaceAnywhere = false;
@@ -272,20 +275,24 @@ public class ThreeStonesServerGame {
                 }
             }
         }
-        
+        System.out.println("                        ****9");
         for (int l = clientY + 1; l <= 10; l++) {
             if (board.getStoneAt(clientX, l) == Stone.EMPTY) {
+                System.out.println("                        ****9.1^");
                 canPlaceAnywhere = false;
                 scoreToCompare = determineScore(playerServer.getStoneColour(),
                         clientX, l);
+                System.out.println("                        ****9.2^");
                 if (scoreToCompare > highestScore) {
                     highestScore = scoreToCompare;
                     bestScoringX = clientX;
                     bestScoringY = l;
+                    System.out.println("                        ****9.3^");
                 }
             }
+            System.out.println("          " + l + "              ****9.4^");
         }
-        
+        System.out.println("                        ****10");
         if (canPlaceAnywhere) {
             //find random spot? or first empty spot?
             boolean wasEmptyFound = false;
@@ -296,7 +303,7 @@ public class ThreeStonesServerGame {
                     wasEmptyFound = true;
             }
         }
-        
+        System.out.println("                        ****11");
         serverX = bestScoringX;
         serverY = bestScoringY;
     }

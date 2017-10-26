@@ -1,5 +1,7 @@
 package com.mycompany.serverside.connection;
 
+import com.mycompany.serverside.business.ThreeStonesServerGame;
+import com.mycompany.serverside.business.ThreeStonesServerGameDAO;
 import com.mycompany.serverside.persistence.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +10,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,33 +68,32 @@ public class ThreeStonesServer {
          byte[] response = new byte[10];
          switch(input[0]){
              //Session initialized.
-             case 0:
-                 System.out.println(a + "  ^^1^  "  + b);
-                 this.session = new ThreeStonesServerSessionImpl();
-                 System.out.println("Session made");
+             case 0: 
+                  System.out.println("----------------->      0");
+                  this.session  = new ThreeStonesServerSessionImpl();
                  response[0] = 1;
-                 this.a = input[1];
-                 this.b = input[2];
-                 System.out.println(a + "  ^^2^  "  + b);
                  break;
              //Request for new game.
              case 1:
-                 System.out.println(a + "  ^^3^  "  + b);
+                 System.out.println("----------------->      1");
                  session.newGame();
                  response[0] = 1;
                  break;
              //Game in progress and a move was made    
              case 2:
-                 //int x = Integer.parseInt(userMsg[0]);
-                 //int y = Integer.parseInt(userMsg[1]);
-                 //session.setClientMove(userMsg[1], userMsg[2]);
+                 System.out.println("----------------->      2");
+                 session.setClientMove(input[1], input[2]);
+                 int[] ai = session.getAIMove();
                  response[0] = 1;
-                 response[1] = 4;
-                 response[2] = 2;
-                 response[3] = 0;
+                 response[1] = (byte)ai[0];
+                 response[2] = (byte)ai[1];
+                 ai = session.getScores();
+                 response[3] = (byte)ai[0];
+                 response[4] = (byte)ai[1];
                  break;
              //Restart Game    
              case 3: 
+                 System.out.println("----------------->      3");
                  session.resstartGame();
                  response[0] = 1;
                  break;
@@ -99,6 +101,7 @@ public class ThreeStonesServer {
             // case "4":               
              
          }
+         System.out.println("----------------->" + Arrays.toString(response));
          return response;
     }
 }

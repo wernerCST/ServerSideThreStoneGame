@@ -110,7 +110,9 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
         
         //determine where server should next play, then play
         findNextServerMove();
+        System.out.println("                        ****5.5 " + serverX + serverY);
         board.setStoneAt(playerServer.getStoneColour(), serverX, serverY);
+        
          System.out.println("p.3");
         //server loses a Stone after a play; the Stone is now on the board
         playerServer.decrementNumStones();
@@ -309,7 +311,7 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
         int scoreToCompare = -1;
         int bestScoringX = -1;
         int bestScoringY = -1;
-        System.out.println("                        ****6");
+        System.out.println("                        ****6"+ serverX + serverY);
         for (int i = clientX - 1; i >= 0; i--) {
             if (board.getStoneAt(i, clientY) == Stone.EMPTY) {
                 canPlaceAnywhere = false;
@@ -322,7 +324,7 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
                 }
             }
         }
-        System.out.println("                        ****7");
+        System.out.println("                        ****7"+ serverX + serverY);
         for (int j = clientX + 1; j <= 10; j++) {
             if (board.getStoneAt(j, clientY) == Stone.EMPTY) {
                 canPlaceAnywhere = false;
@@ -335,7 +337,7 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
                 }
             }
         }
-        System.out.println("                        ****8");
+        System.out.println("                        ****8"+ serverX + serverY);
         for (int k = clientY - 1; k >= 0; k--) {
             if (board.getStoneAt(clientX, k) == Stone.EMPTY) {
                 canPlaceAnywhere = false;
@@ -348,24 +350,24 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
                 }
             }
         }
-        System.out.println("                        ****9");
+        System.out.println("                        ****9"+ serverX + serverY);
         for (int l = clientY + 1; l <= 10; l++) {
             if (board.getStoneAt(clientX, l) == Stone.EMPTY) {
-                System.out.println("                        ****9.1^");
+                System.out.println("                        ****9.1^"+ serverX + serverY);
                 canPlaceAnywhere = false;
                 scoreToCompare = determineScore(playerServer.getStoneColour(),
                         clientX, l);
-                System.out.println("                        ****9.2^");
+                System.out.println("                        ****9.2^"+ serverX + serverY);
                 if (scoreToCompare > highestScore) {
                     highestScore = scoreToCompare;
                     bestScoringX = clientX;
                     bestScoringY = l;
-                    System.out.println("                        ****9.3^");
+                    System.out.println("                        ****9.3^"+ serverX + serverY);
                 }
             }
-            System.out.println("          " + l + "              ****9.4^");
+            System.out.println("          " + l + "              ****9.4^"+ serverX + serverY);
         }
-        System.out.println("                        ****10");
+        System.out.println("                        ****10"+ serverX + serverY);
         //if no empty spots have been found in last Stone's row or col,
         //stone can be placed anywhere free on the board
         if (canPlaceAnywhere) {
@@ -381,7 +383,7 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
                 }
             }
         }
-        System.out.println("                        ****11");
+        System.out.println("                        ****11  " + serverX + serverY);
         serverX = bestScoringX;
         serverY = bestScoringY;
     }

@@ -77,6 +77,7 @@ public class ThreeStonesServer {
              case 1:
                  System.out.println("----------------->      1");
                  session.newGame();
+                 
                  response[0] = 1;
                  break;
              //Game in progress and a move was made    

@@ -44,6 +44,7 @@ public class ThreeStonesServerSessionImpl implements ThreeStonesServerSession {
         scores[1] = 0;
         serverCoords[0] = -1;
         serverCoords[1] = -1;
+        game.buildBoard();
     }
 
     /**

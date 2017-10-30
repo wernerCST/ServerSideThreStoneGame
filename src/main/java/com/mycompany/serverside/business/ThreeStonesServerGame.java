@@ -50,27 +50,35 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
                 if (x == 0 || x == 1 || x == 9 || x == 10) {
                     //vertical bars at edges of board
                     board.setStoneAt(Stone.CORNER, x, y);
+                    System.out.println("Stone of type CORNER added at coords " + x + ", " + y);
                 } else if (y == 0 || y == 1 || y == 9 || y == 10) {
                     //horizontal bars at edges of board
                     board.setStoneAt(Stone.CORNER, x, y);
+                    System.out.println("Stone of type CORNER added at coords " + x + ", " + y);
                 } else if ((x == 2 && y == 2) || (x == 2 && y == 3) || (x == 3 && y == 2)) {
                     //top-left corner
                     board.setStoneAt(Stone.CORNER, x, y);
+                    System.out.println("Stone of type CORNER added at coords " + x + ", " + y);
                 } else if ((x == 7 && y == 2) || (x == 8 && y == 2) || (x == 8 && y == 3)) {
                     //top-right corner
                     board.setStoneAt(Stone.CORNER, x, y);
+                    System.out.println("Stone of type CORNER added at coords " + x + ", " + y);
                 } else if ((x == 2 && y == 7) || (x == 2 && y == 8) || (x == 3 && y == 8)) {
                     //bottom left corner
                     board.setStoneAt(Stone.CORNER, x, y);
+                    System.out.println("Stone of type CORNER added at coords " + x + ", " + y);
                 } else if ((x == 8 && y == 7) || (x == 7 && y == 8) || (x == 8 && y == 8)) {
                     //bottom right corner
                     board.setStoneAt(Stone.CORNER, x, y);
+                    System.out.println("Stone of type CORNER added at coords " + x + ", " + y);
                 } else if (x == 5 && y == 5) {
                     //center of board
                     board.setStoneAt(Stone.CENTER, x, y);
+                    System.out.println("Stone of type CENTER added at coords " + x + ", " + y);
                 } else {
                     //all other spaces empty
                     board.setStoneAt(Stone.EMPTY, x, y);
+                    System.out.println("Stone of type EMPTY added at coords " + x + ", " + y);
                 }
             }
         }

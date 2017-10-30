@@ -12,6 +12,7 @@ import com.mycompany.serverside.data.Stone;
  * @author 1511430
  */
 public interface ThreeStonesServerGameDAO {
+    public void buildBoard();
     public boolean playRoundOfGame(int x, int y);
     public int getServerX();
     public int getServerY();

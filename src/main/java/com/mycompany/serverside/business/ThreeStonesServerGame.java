@@ -24,6 +24,10 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
     private int serverX;
     private int serverY;
     
+    /**
+     * Default constructor. Instantiates the board and both players, and gives 
+     * default values to all internal variables.
+     */
     public ThreeStonesServerGame() {
         board = new ThreeStonesBoard();
         playerClient = new ThreeStonesPlayer(Stone.BLACK);
@@ -34,6 +38,42 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
         clientY = -1;
         serverX = -1;
         serverY = -1;
+    }
+    
+    /**
+     * Fills the ThreeStonesBoard with a set of tiles.
+     */
+    @Override
+    public void buildBoard() {
+        for (int x = 0; x < 11; x++) {
+            for (int y = 0; y < 11; y++) {
+                if (x == 0 || x == 1 || x == 9 || x == 10) {
+                    //vertical bars at edges of board
+                    board.setStoneAt(Stone.CORNER, x, y);
+                } else if (y == 0 || y == 1 || y == 9 || y == 10) {
+                    //horizontal bars at edges of board
+                    board.setStoneAt(Stone.CORNER, x, y);
+                } else if ((x == 2 && y == 2) || (x == 2 && y == 3) || (x == 3 && y == 2)) {
+                    //top-left corner
+                    board.setStoneAt(Stone.CORNER, x, y);
+                } else if ((x == 7 && y == 2) || (x == 8 && y == 2) || (x == 8 && y == 3)) {
+                    //top-right corner
+                    board.setStoneAt(Stone.CORNER, x, y);
+                } else if ((x == 2 && y == 7) || (x == 2 && y == 8) || (x == 3 && y == 8)) {
+                    //bottom left corner
+                    board.setStoneAt(Stone.CORNER, x, y);
+                } else if ((x == 8 && y == 7) || (x == 7 && y == 8) || (x == 8 && y == 8)) {
+                    //bottom right corner
+                    board.setStoneAt(Stone.CORNER, x, y);
+                } else if (x == 5 && y == 5) {
+                    //center of board
+                    board.setStoneAt(Stone.CENTER, x, y);
+                } else {
+                    //all other spaces empty
+                    board.setStoneAt(Stone.EMPTY, x, y);
+                }
+            }
+        }
     }
     
     /**
@@ -50,6 +90,7 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
      * @return true if this round was the last round of the game, 
      *         false otherwise.
      */
+    @Override
     public boolean playRoundOfGame(int x, int y) {
         //given input from client, place their stone
         System.out.println("                        ****2");
@@ -88,22 +129,47 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
         return isGameOver;
     }
     
+    /**
+     * Returns the x-coordinate of the server's most recent move.
+     * @return the x-coordinate of the server's most recent move.
+     */
+    @Override
     public int getServerX() {
         return serverX;
     }
     
+    /**
+     * Returns the y-coordinate of the server's most recent move.
+     * @return the y-coordinate of the server's most recent move.
+     */
+    @Override
     public int getServerY() {
         return serverY;
     }
     
+    /**
+     * Returns the client player's current score.
+     * @return the client player's current score.
+     */
+    @Override
     public int getClientScore() {
         return playerClient.getScore();
     }
     
+    /**
+     * Returns the server player's current score.
+     * @return the server player's current score.
+     */
+    @Override
     public int getServerScore() {
         return playerServer.getScore();
     }
     
+    /**
+     * Returns the number of Stones the client player has remaining.
+     * @return the number of Stones the client player has remaining.
+     */
+    @Override
     public int getClientStones() {
         return playerClient.getNumStones();
     }
@@ -226,7 +292,14 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
     }
     
     /**
-     * 
+     * Determines the next move the server should make. Checks all spaces 
+     * matching the row and column of the most recent Stone played to see if 
+     * any spaces are free. If spaces are free, the method checks to see if any 
+     * free space will earn the server points; the Stone is placed in the 
+     * position that will earn the most points, or the first free space if no 
+     * spaces will earn points. If NO free spaces are available on the row and 
+     * column of the most recent Stone, the server will play its Stone on the 
+     * first empty space it finds in the board.
      */
     private void findNextServerMove() {
         //flag checks if a Stone can be placed anywhere
@@ -293,50 +366,23 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
             System.out.println("          " + l + "              ****9.4^");
         }
         System.out.println("                        ****10");
+        //if no empty spots have been found in last Stone's row or col,
+        //stone can be placed anywhere free on the board
         if (canPlaceAnywhere) {
-            //find random spot? or first empty spot?
+            //find first empty spot on board
             boolean wasEmptyFound = false;
-            while (!wasEmptyFound) {
-                bestScoringX = (int)(Math.random() * 11);
-                bestScoringY = (int)(Math.random() * 11);
-                if (board.getStoneAt(bestScoringX, bestScoringY) == Stone.EMPTY)
-                    wasEmptyFound = true;
+            for (int x = 0; x < 11 && wasEmptyFound == false; x ++) {
+                for (int y = 0; y < 11 && wasEmptyFound == false; y++) {
+                    if (board.getStoneAt(x, y) == Stone.EMPTY) {
+                        wasEmptyFound = true;
+                        bestScoringX = x;
+                        bestScoringY = y;
+                    }
+                }
             }
         }
         System.out.println("                        ****11");
         serverX = bestScoringX;
         serverY = bestScoringY;
     }
-    
-    /**
-     * some pseudocode - might split this between this class & ThreeSTonesServerSession
-	 * remove this before final submission!!
-     * 
-     * playGame()
-     *      while (!gameOver)
-     *          wait for input
-     *          update board with input
-     *          calculatePoints()?
-     *          decideNextMove()
-     *          calculatePoints()
-     *          if (playerOne.getStones == 0 & playerTwo.getStones == 0)
-     *              gameOver = true;
-     *      compare points
-     *      "p1 wins!" or something to that effect based on point total
-     *      return this somehow
-     * 
-     * decideNextMove()
-     *      if allowed to place anywhere - gen 2 random #'s, use as coords
-     *          if Stone at coords == EMPTY, new Stone there! else loop back, gen 2 more #'s
-     *      if NOT allowed to place any spot - examine available spots
-     *          for each spot: which gives more points? go to one that gives most points
-     *          if any spots give same points - pick one at random, or pick first
-     */
-    
-    /**
-     * THINGS 2 SEND BACK
-     * SERVER MOVE COORDS
-     * SCORES
-     * PLAYER STONES LEFT
-     */
 }

@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class ThreeStonesServer { 
     private final  int port;
-    private static final int BUFSIZE = 32;  
+    private static final int BUFSIZE = 6;  
     private ThreeStonesServerSession session;
     private int a, b;
     

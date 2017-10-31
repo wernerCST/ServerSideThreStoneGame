@@ -1,15 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.serverside.business;
 
 import com.mycompany.serverside.data.Stone;
 
 /**
- *
- * @author 1511430
+ *  The ThreeStonesServerGameDAO defines the rules that any implementation of a 
+ * Three Stones server-side game logic class must follow.
+ * 
+ * @author Hannah Ly
+ * @author Werner Castanaza
+ * @author Peter Bellefleur MacCaul
  */
 public interface ThreeStonesServerGameDAO {
     public void buildBoard();

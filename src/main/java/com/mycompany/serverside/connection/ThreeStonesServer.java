@@ -15,27 +15,43 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author 1511430
+ * A ThreeStonesServer class defines the logic for creating and running a 
+ * server for a game of Three Stones. Server can handle one client connection 
+ * at a time. The server creates a ServerSocket on port 50000. The server sends 
+ * and receives custom six-byte arrays to and from a connected client in order 
+ * to communicate. A ThreeStonesServer will run forever, until the application 
+ * it runs in is forcibly closed.
+ * 
+ * @author Werner Castanaza
+ * @author Hannah Ly
+ * @author Peter Bellefleur MacCaul
  */
 public class ThreeStonesServer { 
     private final  int port;
     private static final int BUFSIZE = 6;  
     private ThreeStonesServerSession session;
-    private int a, b;
     
+    /**
+     * Default constructor. 
+     */
     public ThreeStonesServer() {
         this.port = 50000;  
-        a = -1;
-        b = -1;
     }
+    
+    /**
+     * Starts the ThreeStonesServer, allowing it to handle connections. Server 
+     * will handle one connection at a time, and listen for incoming 
+     * connections when not currently handling one.
+     */
     public void startServer() {        
         int msgSize;
         byte[] bb = new byte[BUFSIZE];
         for (;;) {
             try {
+                //get connection information for current machine
                 InetAddress address = InetAddress.getLocalHost();
                 System.out.println("Three Stones server online.");
+                //display server IP and port
                 System.out.println("Server's IP address: " 
                         + address.getHostAddress());
                 System.out.println("Running on port " + port);
@@ -44,16 +60,17 @@ public class ThreeStonesServer {
                 System.out.println("Unable to determine this server's address");
             }
             
+            //create server socket, fetch client socket from server socket
             try (ServerSocket sk = new ServerSocket(this.port);
                     Socket client = sk.accept();) {
-                System.out.println("Client msg recived");
+                System.out.println("Received data from client.");
                 InputStream in = client.getInputStream();
                 OutputStream out = client.getOutputStream();
+                //buffer for incoming packets
                 while((msgSize = in.read(bb)) != -1) {
                     byte[] serverRespones = parseIncomingPacket(bb);
-                    System.out.println("Message size: " + msgSize);
                     out.write(serverRespones, 0, serverRespones.length);    
-                    System.out.println("packet sent");
+                    System.out.println("Sending data to client.");
                 }
                 
             } catch (IOException ex) {
@@ -62,6 +79,17 @@ public class ThreeStonesServer {
         }           
     }
 
+    /**
+     * Parses a byte array received from a Three Stones client application, and 
+     * creates a response to send back. Server makes changes to the current 
+     * session based on packets sent by the client; packets starting with 0 
+     * create the session, packets starting with 1 start a game within the 
+     * session, packets starting with 2 commit a client player's move to the 
+     * game board, and packets starting with 3 restart the game.
+     * 
+     * @param input A byte array, containing information from the client.
+     * @return  A byte array, containing information from the server.
+     */
     private byte[] parseIncomingPacket(byte[] input) {
         
          System.out.println("Parsing client packet...");
@@ -100,7 +128,7 @@ public class ThreeStonesServer {
                  break;
              //Restart Game    
              case 3: 
-                 System.out.println("Packet header 3: start new game");
+                 System.out.println("Packet header 3: reset game");
                  session.resstartGame();
                  response[0] = 3;
                  break;

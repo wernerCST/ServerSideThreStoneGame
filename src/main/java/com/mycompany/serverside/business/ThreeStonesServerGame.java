@@ -5,7 +5,16 @@ import com.mycompany.serverside.data.ThreeStonesBoard;
 import com.mycompany.serverside.data.ThreeStonesPlayer;
 
 /**
- *
+ *The ThreeStonesServerGame class defines the server-side logic required to 
+ * play a game of Three Stones. The game is played between a human client and 
+ * the server AI. The game class receives the coordinates for a move made by 
+ * a player, then determines the server's move based on the rules of Three 
+ * Stones (i.e. a stone must be placed on the same horizontal or vertical axis 
+ * as the previous player's stone, if possible). This class also tracks the 
+ * current state of the board, as well as each player's current score and 
+ * number of stones remaining (as well as all calculations necessary for these 
+ * values).
+ * 
  * @author Peter Bellefleur MacCaul
  */
 public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {

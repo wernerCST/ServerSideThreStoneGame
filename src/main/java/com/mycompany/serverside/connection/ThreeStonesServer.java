@@ -25,7 +25,7 @@ public class ThreeStonesServer {
     private int a, b;
     
     public ThreeStonesServer() {
-        this.port = 7;  
+        this.port = 50000;  
         a = -1;
         b = -1;
     }
@@ -70,7 +70,7 @@ public class ThreeStonesServer {
              //Session initialized.
              case 0: 
                   System.out.println("Packet header 0: start new session");
-                  this.session  = new ThreeStonesServerSessionImpl();
+                 this.session  = new ThreeStonesServerSessionImpl();
                  response[0] = 0;
                  break;
              //Request for new game.
@@ -86,6 +86,7 @@ public class ThreeStonesServer {
                  session.setClientMove(input[1], input[2]);
                  int[] ai = session.getAIMove();
                  if (session.getGameOverFlag()) {
+                     //game over
                     response[0] = 4;
                  } else {
                      response[0] = 2;
@@ -104,7 +105,9 @@ public class ThreeStonesServer {
                  response[0] = 3;
                  break;
              //End game
-            // case "4":               
+            case 4:      
+                 session = null;
+                 break;
              
          }
          System.out.println("sending packet to client: " + Arrays.toString(response));

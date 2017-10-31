@@ -39,7 +39,6 @@ public class ThreeStonesServerSessionImpl implements ThreeStonesServerSession {
      */
     @Override
     public void newGame() {
-        System.out.println("Starting new game...");
         scores[0] = 0;
         scores[1] = 0;
         serverCoords[0] = -1;
@@ -52,7 +51,6 @@ public class ThreeStonesServerSessionImpl implements ThreeStonesServerSession {
      */
     @Override
     public void resstartGame() {
-        System.out.println("Restarting game...");
         game = new ThreeStonesServerGame();
         isGameOver = false;
         newGame();
@@ -68,23 +66,11 @@ public class ThreeStonesServerSessionImpl implements ThreeStonesServerSession {
      */
     @Override
     public void setClientMove(int x, int y) {
-        System.out.println("                        ****1");
-        System.out.println("Client has played Stone at: " + x + ", " + y);
         isGameOver = game.playRoundOfGame(x, y);
         serverCoords[0] = game.getServerX();
         serverCoords[1] = game.getServerY();
         scores[0] = game.getClientScore();
         scores[1] = game.getServerScore();
-        System.out.println("Server has played Stone at: " + serverCoords[0] 
-                + ", " + serverCoords[1]);
-        System.out.println("Client score: " + scores[0]);
-        System.out.println("Server score: " + scores[1]);
-        if (isGameOver) {
-            System.out.println("---GAME OVER---");
-        } else {
-            System.out.println(game.getClientStones() 
-                    + " turns until game ends.");
-        }
     }
 
     /**

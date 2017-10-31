@@ -63,14 +63,12 @@ public class ThreeStonesServer {
             //create server socket, fetch client socket from server socket
             try (ServerSocket sk = new ServerSocket(this.port);
                     Socket client = sk.accept();) {
-                System.out.println("Received data from client.");
                 InputStream in = client.getInputStream();
                 OutputStream out = client.getOutputStream();
                 //buffer for incoming packets
                 while((msgSize = in.read(bb)) != -1) {
                     byte[] serverRespones = parseIncomingPacket(bb);
                     out.write(serverRespones, 0, serverRespones.length);    
-                    System.out.println("Sending data to client.");
                 }
                 
             } catch (IOException ex) {

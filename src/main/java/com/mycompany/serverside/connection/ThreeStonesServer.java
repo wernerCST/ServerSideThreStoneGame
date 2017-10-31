@@ -91,6 +91,7 @@ public class ThreeStonesServer {
                  ai = session.getScores();
                  response[3] = (byte)ai[0];
                  response[4] = (byte)ai[1];
+                 response[5] = (byte)session.getStones();
                  break;
              //Restart Game    
              case 3: 
@@ -102,7 +103,7 @@ public class ThreeStonesServer {
             // case "4":               
              
          }
-         System.out.println("----------------->" + Arrays.toString(response));
+         System.out.println("sending packet to client: " + Arrays.toString(response));
          return response;
     }
 }

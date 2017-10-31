@@ -20,6 +20,8 @@ public interface ThreeStonesServerSession {
     //Returns stones left for the player and the AI.
     public int getStones();
     
+    public boolean getGameOverFlag();
+    
     
     
     

@@ -125,6 +125,7 @@ public class ThreeStonesServerSessionImpl implements ThreeStonesServerSession {
      * 
      * @return true if the current game has ended, false otherwise.
      */
+    @Override
     public boolean getGameOverFlag() {
         return isGameOver;
     }

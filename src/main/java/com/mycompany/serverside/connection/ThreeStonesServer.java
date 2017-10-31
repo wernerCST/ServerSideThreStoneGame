@@ -71,7 +71,7 @@ public class ThreeStonesServer {
              case 0: 
                   System.out.println("Packet header 0: start new session");
                   this.session  = new ThreeStonesServerSessionImpl();
-                 response[0] = 1;
+                 response[0] = 0;
                  break;
              //Request for new game.
              case 1:
@@ -85,7 +85,11 @@ public class ThreeStonesServer {
                  System.out.println("Packet header 2: received move from player");
                  session.setClientMove(input[1], input[2]);
                  int[] ai = session.getAIMove();
-                 response[0] = 1;
+                 if (session.getGameOverFlag()) {
+                    response[0] = 4;
+                 } else {
+                     response[0] = 2;
+                 }
                  response[1] = (byte)ai[0];
                  response[2] = (byte)ai[1];
                  ai = session.getScores();
@@ -97,7 +101,7 @@ public class ThreeStonesServer {
              case 3: 
                  System.out.println("Packet header 3: start new game");
                  session.resstartGame();
-                 response[0] = 1;
+                 response[0] = 3;
                  break;
              //End game
             // case "4":               

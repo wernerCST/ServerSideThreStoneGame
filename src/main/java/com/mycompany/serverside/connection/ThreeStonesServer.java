@@ -91,26 +91,20 @@ public class ThreeStonesServer {
      * @return  A byte array, containing information from the server.
      */
     private byte[] parseIncomingPacket(byte[] input) {
-        
-         System.out.println("Parsing client packet...");
          byte[] response = new byte[BUFSIZE];
          switch(input[0]){
              //Session initialized.
              case 0: 
-                  System.out.println("Packet header 0: start new session");
                  this.session  = new ThreeStonesServerSessionImpl();
                  response[0] = 0;
                  break;
              //Request for new game.
              case 1:
-                 System.out.println("Packet header 1: start new game");
-                 session.newGame();
-                 
+                 session.newGame();                 
                  response[0] = 1;
                  break;
              //Game in progress and a move was made    
              case 2:
-                 System.out.println("Packet header 2: received move from player");
                  session.setClientMove(input[1], input[2]);
                  int[] ai = session.getAIMove();
                  if (session.getGameOverFlag()) {
@@ -128,7 +122,6 @@ public class ThreeStonesServer {
                  break;
              //Restart Game    
              case 3: 
-                 System.out.println("Packet header 3: reset game");
                  session.resstartGame();
                  response[0] = 3;
                  break;
@@ -138,7 +131,6 @@ public class ThreeStonesServer {
                  break;
              
          }
-         System.out.println("sending packet to client: " + Arrays.toString(response));
          return response;
     }
 }

@@ -12,7 +12,7 @@ public interface ThreeStonesServerSession {
     //A new GameState object is created.
     public void newGame();
     //Resets the GameState object to it's default values
-    public void resstartGame();
+    public void restartGame();
     //Sets the clients stone onto the board
     public void setClientMove(int x, int y);
     //Returns the AI move

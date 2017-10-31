@@ -126,7 +126,7 @@ public class ThreeStonesServer {
              //Restart Game    
              case 3: 
                  System.out.println("Array header 3: restart game");
-                 session.resstartGame();
+                 session.restartGame();
                  response[0] = 3;
                  break;
              //End game

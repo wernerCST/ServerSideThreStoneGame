@@ -19,9 +19,9 @@ public class ThreeStonesServerSessionImpl implements ThreeStonesServerSession {
     //flag to track if game is over
     private boolean isGameOver;
     //array to track server moves: [0] is x coord, [1] is y coord
-    int[] serverCoords;
+    private int[] serverCoords;
     //array to track player scores: [0] is client score, [1] is server score
-    int[] scores;
+    private int[] scores;
     
     /**
      * Default constructor. Instantiates game logic & arrays.
@@ -51,7 +51,7 @@ public class ThreeStonesServerSessionImpl implements ThreeStonesServerSession {
      * Resets the game logic to allow a new game to be played. 
      */
     @Override
-    public void resstartGame() {
+    public void restartGame() {
         System.out.println("Restarting game...");
         game = new ThreeStonesServerGame();
         isGameOver = false;

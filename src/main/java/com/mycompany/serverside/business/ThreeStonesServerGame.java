@@ -59,31 +59,47 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
                 if (x == 0 || x == 1 || x == 9 || x == 10) {
                     //vertical bars at edges of board
                     board.setStoneAt(Stone.CORNER, x, y);
+                    System.out.println("Stone of type CORNER added at coords " 
+                            + x + ", " + y);
                 } else if (y == 0 || y == 1 || y == 9 || y == 10) {
                     //horizontal bars at edges of board
                     board.setStoneAt(Stone.CORNER, x, y);
+                    System.out.println("Stone of type CORNER added at coords " 
+                            + x + ", " + y);
                 } else if ((x == 2 && y == 2) || (x == 2 && y == 3) 
                         || (x == 3 && y == 2)) {
                     //top-left corner
                     board.setStoneAt(Stone.CORNER, x, y);
+                    System.out.println("Stone of type CORNER added at coords " 
+                            + x + ", " + y);
                 } else if ((x == 7 && y == 2) || (x == 8 && y == 2) 
                         || (x == 8 && y == 3)) {
                     //top-right corner
                     board.setStoneAt(Stone.CORNER, x, y);
+                    System.out.println("Stone of type CORNER added at coords " 
+                            + x + ", " + y);
                 } else if ((x == 2 && y == 7) || (x == 2 && y == 8) 
                         || (x == 3 && y == 8)) {
                     //bottom left corner
                     board.setStoneAt(Stone.CORNER, x, y);
+                    System.out.println("Stone of type CORNER added at coords " 
+                            + x + ", " + y);
                 } else if ((x == 8 && y == 7) || (x == 7 && y == 8) 
                         || (x == 8 && y == 8)) {
                     //bottom right corner
                     board.setStoneAt(Stone.CORNER, x, y);
+                    System.out.println("Stone of type CORNER added at coords " 
+                            + x + ", " + y);
                 } else if (x == 5 && y == 5) {
                     //center of board
                     board.setStoneAt(Stone.CENTER, x, y);
+                    System.out.println("Stone of type CENTER added at coords " 
+                            + x + ", " + y);
                 } else {
                     //all other spaces empty
                     board.setStoneAt(Stone.EMPTY, x, y);
+                    System.out.println("Stone of type EMPTY added at coords " 
+                            + x + ", " + y);
                 }
             }
         }
@@ -108,7 +124,9 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
         //given input from client, place their stone
         clientX = x;
         clientY = y;
-        board.setStoneAt(playerClient.getStoneColour(), clientX, clientY);        
+        board.setStoneAt(playerClient.getStoneColour(), clientX, clientY);
+        System.out.println("Client stone placed.");
+        
         //player loses a Stone after a play; the Stone is now on the board
         playerClient.decrementNumStones();
         //calculate points client has earned, add to their total score
@@ -117,8 +135,10 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
         playerClient.incrementScore(nextScore);
         
         //determine where server should next play, then play
+        System.out.println("Calculating next server move...");
         findNextServerMove();
         board.setStoneAt(playerServer.getStoneColour(), serverX, serverY);
+        System.out.println("Server stone placed.");
         //server loses a Stone after a play; the Stone is now on the board
         playerServer.decrementNumStones();
         //calculate points server has earned, add to their total score
@@ -314,12 +334,17 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
         int scoreToCompare = -1;
         int bestScoringX = -1;
         int bestScoringY = -1;
+        System.out.println("Checking for empty spots horizontal to player "
+                + "stone...");
         for (int i = clientX - 1; i >= 0; i--) {
             if (board.getStoneAt(i, clientY) == Stone.EMPTY) {
+                System.out.println("Space found!");
                 canPlaceAnywhere = false;
                 scoreToCompare = determineScore(playerServer.getStoneColour(), 
                         i, clientY);
                 if (scoreToCompare > highestScore) {
+                    System.out.println("Space can earn server " 
+                            + scoreToCompare + " points.");
                     highestScore = scoreToCompare;
                     bestScoringX = i;
                     bestScoringY = clientY;
@@ -328,22 +353,30 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
         }
         for (int j = clientX + 1; j <= 10; j++) {
             if (board.getStoneAt(j, clientY) == Stone.EMPTY) {
+                System.out.println("Space found!");
                 canPlaceAnywhere = false;
                 scoreToCompare = determineScore(playerServer.getStoneColour(),
                         j, clientY);
                 if (scoreToCompare > highestScore) {
+                    System.out.println("Space can earn server " 
+                            + scoreToCompare + " points.");
                     highestScore = scoreToCompare;
                     bestScoringX = j;
                     bestScoringY = clientY;
                 }
             }
         }
+        System.out.println("Checking for empty spots vertical to player "
+                + "stone...");
         for (int k = clientY - 1; k >= 0; k--) {
             if (board.getStoneAt(clientX, k) == Stone.EMPTY) {
+                System.out.println("Space found!");
                 canPlaceAnywhere = false;
                 scoreToCompare = determineScore(playerServer.getStoneColour(),
                         clientX, k);
                 if (scoreToCompare > highestScore) {
+                    System.out.println("Space can earn server " 
+                            + scoreToCompare + " points.");
                     highestScore = scoreToCompare;
                     bestScoringX = clientX;
                     bestScoringY = k;
@@ -352,10 +385,13 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
         }
         for (int l = clientY + 1; l <= 10; l++) {
             if (board.getStoneAt(clientX, l) == Stone.EMPTY) {
+                System.out.println("Space found!");
                 canPlaceAnywhere = false;
                 scoreToCompare = determineScore(playerServer.getStoneColour(),
                         clientX, l);
                 if (scoreToCompare > highestScore) {
+                    System.out.println("Space can earn server " 
+                            + scoreToCompare + " points.");
                     highestScore = scoreToCompare;
                     bestScoringX = clientX;
                     bestScoringY = l;
@@ -365,11 +401,14 @@ public class ThreeStonesServerGame implements ThreeStonesServerGameDAO {
         //if no empty spots have been found in last Stone's row or col,
         //stone can be placed anywhere free on the board
         if (canPlaceAnywhere) {
+            System.out.println("No free horizontal or vertical spaces found. "
+                    + "Searching for first empty space on board...");
             //find first empty spot on board
             boolean wasEmptyFound = false;
             for (int x = 0; x < 11 && wasEmptyFound == false; x ++) {
                 for (int y = 0; y < 11 && wasEmptyFound == false; y++) {
                     if (board.getStoneAt(x, y) == Stone.EMPTY) {
+                        System.out.println("Empty space found!");
                         wasEmptyFound = true;
                         bestScoringX = x;
                         bestScoringY = y;

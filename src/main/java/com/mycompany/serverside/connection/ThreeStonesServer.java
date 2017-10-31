@@ -63,12 +63,14 @@ public class ThreeStonesServer {
             //create server socket, fetch client socket from server socket
             try (ServerSocket sk = new ServerSocket(this.port);
                     Socket client = sk.accept();) {
+                System.out.println("Received data from client.");
                 InputStream in = client.getInputStream();
                 OutputStream out = client.getOutputStream();
                 //buffer for incoming packets
                 while((msgSize = in.read(bb)) != -1) {
                     byte[] serverRespones = parseIncomingPacket(bb);
                     out.write(serverRespones, 0, serverRespones.length);    
+                    System.out.println("Sending data to client.");
                 }
                 
             } catch (IOException ex) {
@@ -93,16 +95,19 @@ public class ThreeStonesServer {
          switch(input[0]){
              //Session initialized.
              case 0: 
+                 System.out.println("Array header 0: initialize session");
                  this.session  = new ThreeStonesServerSessionImpl();
                  response[0] = 0;
                  break;
              //Request for new game.
              case 1:
+                 System.out.println("Array header 1: start new game");
                  session.newGame();                 
                  response[0] = 1;
                  break;
              //Game in progress and a move was made    
              case 2:
+                 System.out.println("Array header 2: received move from client");
                  session.setClientMove(input[1], input[2]);
                  int[] ai = session.getAIMove();
                  if (session.getGameOverFlag()) {
@@ -120,12 +125,14 @@ public class ThreeStonesServer {
                  break;
              //Restart Game    
              case 3: 
+                 System.out.println("Array header 3: restart game");
                  session.resstartGame();
                  response[0] = 3;
                  break;
              //End game
             case 4:      
-                 session = null;
+                System.out.println("Array header 4: closing game"); 
+                session = null;
                  break;
              
          }

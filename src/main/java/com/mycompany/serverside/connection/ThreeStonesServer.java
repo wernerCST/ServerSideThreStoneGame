@@ -51,9 +51,9 @@ public class ThreeStonesServer {
                 OutputStream out = client.getOutputStream();
                 while((msgSize = in.read(bb)) != -1) {
                     byte[] serverRespones = parseIncomingPacket(bb);
-                    System.out.println("---->> " + msgSize);
+                    System.out.println("Message size: " + msgSize);
                     out.write(serverRespones, 0, serverRespones.length);    
-                    System.out.println("---->>   sent");
+                    System.out.println("packet sent");
                 }
                 
             } catch (IOException ex) {
@@ -64,25 +64,25 @@ public class ThreeStonesServer {
 
     private byte[] parseIncomingPacket(byte[] input) {
         
-         System.out.println("in parseIncomingPacket");
-         byte[] response = new byte[10];
+         System.out.println("Parsing client packet...");
+         byte[] response = new byte[BUFSIZE];
          switch(input[0]){
              //Session initialized.
              case 0: 
-                  System.out.println("----------------->      0");
+                  System.out.println("Packet header 0: start new session");
                   this.session  = new ThreeStonesServerSessionImpl();
                  response[0] = 1;
                  break;
              //Request for new game.
              case 1:
-                 System.out.println("----------------->      1");
+                 System.out.println("Packet header 1: start new game");
                  session.newGame();
                  
                  response[0] = 1;
                  break;
              //Game in progress and a move was made    
              case 2:
-                 System.out.println("----------------->      2");
+                 System.out.println("Packet header 2: received move from player");
                  session.setClientMove(input[1], input[2]);
                  int[] ai = session.getAIMove();
                  response[0] = 1;
@@ -94,7 +94,7 @@ public class ThreeStonesServer {
                  break;
              //Restart Game    
              case 3: 
-                 System.out.println("----------------->      3");
+                 System.out.println("Packet header 3: start new game");
                  session.resstartGame();
                  response[0] = 1;
                  break;

@@ -1,8 +1,6 @@
 package com.mycompany.serverside.connection;
 
 import java.io.IOException;
-import static javafx.application.Application.launch;
-import java.net.*;
 
 /**
  * Main application class for the ThreeStonesServer.
@@ -16,12 +14,11 @@ public class MainApp {
      * then starts the server.
      * 
      * @param args Any arguments included with the application on launch.
+     * @throws java.io.IOException
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         ThreeStonesServer connection = new ThreeStonesServer();
-        connection.startServer(); 
-        
-       
+        connection.startServer();    
     }
     
 }
